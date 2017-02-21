@@ -10,4 +10,12 @@ module Enumerable
       yield(self[index], index)
     end
   end
+
+  def my_select
+    result = []
+    self.my_each do |element|
+      result << element if yield(element) == true
+    end
+    result
+  end
 end
