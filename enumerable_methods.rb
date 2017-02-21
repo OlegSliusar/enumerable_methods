@@ -34,4 +34,12 @@ module Enumerable
     end
     result
   end
+
+  def my_none?
+    result = true
+    self.my_each do |element|
+      result = false if yield(element) == true
+    end
+    result
+  end
 end
