@@ -62,4 +62,11 @@ module Enumerable
       counter
     end
   end
+
+  def my_map
+    self.my_each_with_index do |item, index|
+      self[index] = yield(item)
+    end
+    self
+  end
 end
