@@ -18,4 +18,12 @@ module Enumerable
     end
     result
   end
+
+  def my_all?
+    result = true
+    self.my_each do |element|
+      result = false if yield(element) == false
+    end
+    result
+  end
 end
