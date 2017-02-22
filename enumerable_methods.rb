@@ -103,7 +103,17 @@ module Enumerable
       memo
     end
   end
+
+  def multiply_els(ary = nil)
+    return ary.my_inject(:*) unless ary.nil?
+    self.my_inject(:*)
+  end
 end
+
+def multiply_els(ary)
+  ary.my_inject(:*)
+end
+
 
 p "[1, 2, 3, 4].my_map { |i| i*i } => #{[1, 2, 3, 4].my_map { |i| i*i }}, should be [1, 4, 9, 16]"   #=> [1, 4, 9, 16]
 
@@ -125,3 +135,6 @@ longest = %w{ cat sheep bear }.my_inject do |memo, word|
    memo.length > word.length ? memo : word
 end
 p "The longest word is '#{longest}', should be 'sheep'"
+
+p "[1, 2, 3, 4].multiply_els => #{[1, 2, 3, 4].multiply_els}, should be 24"   # => 24
+p "multiply_els([2,4,5]) => #{multiply_els([2,4,5])}, should be 40"    #=> 40
