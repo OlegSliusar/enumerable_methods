@@ -63,9 +63,9 @@ module Enumerable
     end
   end
 
-  def my_map
+  def my_map(block)
     self.my_each_with_index do |item, index|
-      self[index] = yield(item)
+      self[index] = block.call(item)
     end
     self
   end
@@ -114,8 +114,10 @@ def multiply_els(ary)
   ary.my_inject(:*)
 end
 
+some_block = Proc.new { |i| i * i }
 
-p "[1, 2, 3, 4].my_map { |i| i*i } => #{[1, 2, 3, 4].my_map { |i| i*i }}, should be [1, 4, 9, 16]"   #=> [1, 4, 9, 16]
+p "[1, 2, 3, 4].my_map(some_block) => #{[1, 2, 3, 4].my_map(some_block)}, should be [1, 4, 9, 16]"
+# p "[1, 2, 3, 4].my_map { |i| i*i } => #{[1, 2, 3, 4].my_map { |i| i*i }}, should be [1, 4, 9, 16]"   #=> [1, 4, 9, 16]
 
 p "[5, 6, 7, 8, 9, 10].my_inject { |sum, n| sum + n }    => #{[5, 6, 7, 8, 9, 10].my_inject { |sum, n| sum + n }}, should be 45"   #=> 45
 
