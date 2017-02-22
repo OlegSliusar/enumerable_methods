@@ -63,9 +63,9 @@ module Enumerable
     end
   end
 
-  def my_map(block)
+  def my_map(proc = Proc.new, &block)
     self.my_each_with_index do |item, index|
-      self[index] = block.call(item)
+      self[index] = proc.call(item)
     end
     self
   end
@@ -74,8 +74,7 @@ module Enumerable
     if !arg.nil? && !(Symbol === arg)
       memo = arg
     end
-    memo = 0
-    memo = 1 if arg == :*
+
     if Symbol === arg
       self.my_each_with_index do |element, index|
         memo = self[0] if index == 0
@@ -95,7 +94,6 @@ module Enumerable
       end
       memo
     else
-      memo = 0
       self.my_each_with_index do |element, index|
         memo = self[0] if index == 0
         memo = yield(memo, element)
@@ -105,8 +103,7 @@ module Enumerable
   end
 
   def multiply_els(ary = nil)
-    return ary.my_inject(:*) unless ary.nil?
-    self.my_inject(:*)
+    ary.nil? ? self.my_inject(:*) : ary.my_inject(:*)
   end
 end
 
@@ -116,8 +113,9 @@ end
 
 some_block = Proc.new { |i| i * i }
 
-p "[1, 2, 3, 4].my_map(some_block) => #{[1, 2, 3, 4].my_map(some_block)}, should be [1, 4, 9, 16]"
-# p "[1, 2, 3, 4].my_map { |i| i*i } => #{[1, 2, 3, 4].my_map { |i| i*i }}, should be [1, 4, 9, 16]"   #=> [1, 4, 9, 16]
+p "[1, 2, 3, 4].my_map(some_block) => #{[1, 2, 3, 4].my_map(some_block)}, should be [1, 4, 9, 16]"    #=> [1, 4, 9, 16]
+
+p "[1, 2, 3, 4].my_map { |i| i*i } => #{[1, 2, 3, 4].my_map { |i| i*i }}, should be [1, 4, 9, 16]"   #=> [1, 4, 9, 16]
 
 p "[5, 6, 7, 8, 9, 10].my_inject { |sum, n| sum + n }    => #{[5, 6, 7, 8, 9, 10].my_inject { |sum, n| sum + n }}, should be 45"   #=> 45
 
@@ -139,4 +137,5 @@ end
 p "The longest word is '#{longest}', should be 'sheep'"
 
 p "[1, 2, 3, 4].multiply_els => #{[1, 2, 3, 4].multiply_els}, should be 24"   # => 24
+
 p "multiply_els([2,4,5]) => #{multiply_els([2,4,5])}, should be 40"    #=> 40
