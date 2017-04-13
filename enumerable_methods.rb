@@ -102,40 +102,7 @@ module Enumerable
     end
   end
 
-  def multiply_els(ary = nil)
-    ary.nil? ? self.my_inject(:*) : ary.my_inject(:*)
+  def multiply_els
+    self.my_inject(:*)
   end
 end
-
-def multiply_els(ary)
-  ary.my_inject(:*)
-end
-
-some_block = Proc.new { |i| i * i }
-
-p "[1, 2, 3, 4].my_map(some_block) => #{[1, 2, 3, 4].my_map(some_block)}, should be [1, 4, 9, 16]"    #=> [1, 4, 9, 16]
-
-p "[1, 2, 3, 4].my_map { |i| i*i } => #{[1, 2, 3, 4].my_map { |i| i*i }}, should be [1, 4, 9, 16]"   #=> [1, 4, 9, 16]
-
-p "[5, 6, 7, 8, 9, 10].my_inject { |sum, n| sum + n }    => #{[5, 6, 7, 8, 9, 10].my_inject { |sum, n| sum + n }}, should be 45"   #=> 45
-
-p "[5, 6, 7, 8, 9, 10].my_inject(:+)   => #{[5, 6, 7, 8, 9, 10].my_inject(:+)}, should be 45"    # => 45
-
-p "[10, 2, 4].my_inject(:-)    => #{[10, 2, 4].my_inject(:-)}, should be 4"    # => 4
-
-p "[8, 2, 2].my_inject(:/)    => #{[8, 2, 2].my_inject(:/)}, should be 2"   # => 2
-
-p "[1, 2, 3, 4].my_inject(:*)   => #{[1, 2, 3, 4].my_inject(:*)}, should be 24"    # => 24
-
-p "[5, 6, 7, 8, 9, 10].my_inject(1, :*)    => #{[5, 6, 7, 8, 9, 10].my_inject(1, :*)}, should be 151200"    # => 151200
-
-p "[5, 6, 7, 8, 9, 10].my_inject(1) { |product, n| product * n }   => #{[5, 6, 7, 8, 9, 10].my_inject(1) { |product, n| product * n }}, should be 151200" #=> 151200
-
-longest = %w{ cat sheep bear }.my_inject do |memo, word|
-   memo.length > word.length ? memo : word
-end
-p "The longest word is '#{longest}', should be 'sheep'"
-
-p "[1, 2, 3, 4].multiply_els => #{[1, 2, 3, 4].multiply_els}, should be 24"   # => 24
-
-p "multiply_els([2,4,5]) => #{multiply_els([2,4,5])}, should be 40"    #=> 40
